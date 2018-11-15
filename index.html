@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+text{
+   font-size:12px;
+}
+.mainBars rect{
+  shape-rendering: auto;
+  fill-opacity: 0;
+  stroke-width: 0.5px;
+  stroke: rgb(0, 0, 0);
+  stroke-opacity: 0;
+}
+.subBars{
+   shape-rendering:crispEdges;
+}
+.edges{
+   stroke:none;
+   fill-opacity:0.5;
+}
+.header{
+   text-anchor:middle;
+   font-size:30px;
+}
+line{
+   stroke:grey;
+}
+</style>
+
+<body>
+<!-- 팀명 표시-->
+<h2>17</h2>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+<script> 
+<!-- 기존 코드에 있던 자료들을 Dataset에 있는 자료들을 기반으로 바꿔줌>
+var data=[
+['   Generic   '   ,'   All   '   ,   7   ],
+['   Exploits   '   ,'   All    '   ,   7   ],
+['   Backdoors   '   ,'   Backdoors   '   ,   2329   ],
+['   Fuzzers    '   ,'   BGP   '   ,   6163   ],
+['   DoS   '   ,'   Browser   '   ,   1061   ],
+['   Exploits   '   ,'   Browser    '   ,   7925   ],
+['   Shellcode   '   ,'   BSD   '   ,   296   ],
+['   Shellcode   '   ,'   BSDi   '   ,   110   ],
+['   Exploits   '   ,'   Cisco IOS   '   ,   579   ],
+['   Fuzzers    '   ,'   DCERPC   '   ,   619   ],
+['   Exploits   '   ,'   DCERPC    '   ,   121   ],
+['   Shellcode   '   ,'   Decoders   '   ,   120   ],
+['   DoS   '   ,'   DNS   '   ,   375   ],
+['   Exploits   '   ,'   DNS   '   ,   181   ],
+['   Reconnaissance   '   ,'   DNS   '   ,   41   ],
+['   DoS   '   ,'   Ethernet   '   ,   860   ],
+['   Exploits   '   ,'   Evasions   '   ,   249   ],
+['   Shellcode   '   ,'   FreeBSD   '   ,   53   ],
+['   DoS   '   ,'   FTP   '   ,   69   ],
+['   Exploits   '   ,'   FTP   '   ,   244   ],
+['   Fuzzers    '   ,'   FTP   '   ,   806   ],
+['   Shellcode   '   ,'   HP-UX    '   ,   14   ],
+['   Analysis   '   ,'   HTML   '   ,   616   ],
+['   DoS   '   ,'   HTTP   '   ,   1357   ],
+['   Fuzzers    '   ,'   HTTP   '   ,   1497   ],
+['   Generic   '   ,'   HTTP   '   ,   6   ],
+['   Reconnaissance   '   ,'   HTTP   '   ,   2181   ],
+['   DoS   '   ,'   ICMP   '   ,   1478   ],
+['   Exploits   '   ,'   ICMP   '   ,   1229   ],
+['   Reconnaissance   '   ,'   ICMP   '   ,   1765   ],
+['   DoS   '   ,'   IGMP   '   ,   1267   ],
+['   Exploits   '   ,'   IGMP   '   ,   350   ],
+['   DoS   '   ,'   IMAP   '   ,   7   ],
+['   Exploits   '   ,'   IMAP   '   ,   42   ],
+['   DoS   '   ,'   LDAP   '   ,   20   ],
+['   Exploits   '   ,'   LDAP   '   ,   75   ],
+['   Shellcode   '   ,'   Linux   '   ,   275   ],
+['   Exploits   '   ,'   LPD    '   ,   41   ],
+['   Shellcode   '   ,'   Mac OS X   '   ,   175   ],
+['   Exploits   '   ,'   Microsoft IIS   '   ,   347   ],
+['   DoS   '   ,'   Microsoft Office   '   ,   341   ],
+['   DoS   '   ,'   Miscellaneous   '   ,   3528   ],
+['   Exploits   '   ,'   Miscellaneous   '   ,   5178   ],
+['   Reconnaissance   '   ,'   MSSQL   '   ,   6   ],
+['   Exploits   '   ,'   MSSQL    '   ,   26   ],
+['   Shellcode   '   ,'   Multiple OS   '   ,   66   ],
+['   Reconnaissance   '   ,'   NetBIOS    '   ,   6   ],
+['   DoS   '   ,'   NetBIOS/SMB   '   ,   1262   ],
+['   Shellcode   '   ,'   NetBSD    '   ,   53   ],
+['   Exploits   '   ,'   Office Document   '   ,   2850   ],
+['   Shellcode   '   ,'   OpenBSD   '   ,   26   ],
+['   Exploits   '   ,'   Oracle   '   ,   187   ],
+['   DoS   '   ,'   Oracle    '   ,   7   ],
+['   Fuzzers    '   ,'   OSPF   '   ,   2739   ],
+['   Exploits   '   ,'   PHP   '   ,   1016   ],
+['   Exploits   '   ,'   POP3   '   ,   35   ],
+['   Analysis   '   ,'   Port Scanner   '   ,   2055   ],
+['   Exploits   '   ,'   PPTP   '   ,   13   ],
+['   Fuzzers    '   ,'   PPTP   '   ,   1583   ],
+['   Exploits   '   ,'   RADIUS   '   ,   577   ],
+['   Exploits   '   ,'   RDesktop   '   ,   14   ],
+['   DoS   '   ,'   RDP   '   ,   1319   ],
+['   Fuzzers    '   ,'   RIP   '   ,   3550   ],
+['   DoS   '   ,'   RTSP   '   ,   27   ],
+['   Exploits   '   ,'   RTSP   '   ,   688   ],
+['   Exploits   '   ,'   SCADA   '   ,   932   ],
+['   Reconnaissance   '   ,'   SCTP   '   ,   369   ],
+['   DoS   '   ,'   SIP   '   ,   60   ],
+['   Exploits   '   ,'   SIP   '   ,   1043   ],
+['   Generic   '   ,'   SIP   '   ,   436   ],
+['   Exploits   a'   ,'   SMB   '   ,   2130   ],
+['   Fuzzers    '   ,'   SMB   '   ,   5245   ],
+['   DoS   '   ,'   SMTP   '   ,   25   ],
+['   Exploits   '   ,'   SMTP   '   ,   772   ],
+['   Generic   '   ,'   SMTP   '   ,   247   ],
+['   Reconnaissance   '   ,'   SMTP   '   ,   7   ],
+['   DoS   '   ,'   SNMP   '   ,   34   ],
+['   Reconnaissance   '   ,'   SNMP   '   ,   81   ],
+['   Shellcode   '   ,'   Solaris   '   ,   79   ],
+['   Exploits   '   ,'   SSH   '   ,   14   ],
+['   DoS   '   ,'   SSL   '   ,   20   ],
+['   Exploits   '   ,'   SSL   '   ,   39   ],
+['   DoS   '   ,'   SunRPC   '   ,   20   ],
+['   Exploits   '   ,'   SunRPC   '   ,   74   ],
+['   Reconnaissance   '   ,'   SunRPC   '   ,   2   ],
+['   Fuzzers    '   ,'   Syslog   '   ,   1851   ],
+['   DoS   '   ,'   TCP   '   ,   1742   ],
+['   Exploits   '   ,'   TCP   '   ,   915   ],
+['   DoS   '   ,'   Telnet   '   ,   13   ],
+['   Exploits   '   ,'   Telnet   '   ,   122   ],
+['   Reconnaissance   '   ,'   Telnet   '   ,   7   ],
+['   DoS   '   ,'   TFTP   '   ,   21   ],
+['   Exploits   '   ,'   TFTP   '   ,   87   ],
+['   Fuzzers    '   ,'   TFTP   '   ,   193   ],
+['   Generic   '   ,'   TFTP   '   ,   137   ],
+['   DoS   '   ,'   VNC   '   ,   13   ],
+['   Exploits   '   ,'   VNC   '   ,   32   ],
+['   Exploits   '   ,'   Web Application   '   ,   4639   ],
+['   Exploits   '   ,'   Webserver   '   ,   465   ],
+['   Shellcode   '   ,'   Windows   '   ,   203   ],
+['   DoS   '   ,'   Windows Explorer   '   ,   122   ],
+['   Worms   '   ,'   Worms   '   ,   174   ],
+['   DoS   '   ,'   XINETD   '   ,   24   ]
+];
+
+<!-- 주요 공격들의 큰 기반들의 색깔을 지정해줌-->
+var color ={'   Analysis   ':"#3366CC", '   Backdoors   ':"#DC3912",  
+'   DoS   ':"#FF9900", '   Exploits   ':"#109618", '   Fuzzers    ':"#990099", '   Generic   ':"#0099C6", '   Shellcode   ':"#FA7A30",'   Worms   ':"808080"};
+
+<!-- 그래프 표현 설정-->
+var svg = d3.select("body").append("svg").attr("width", 1000).attr("height", 1200);
+
+<!-- 주제문과 그에 따른 설정-->
+svg.append("text").attr("x",350).attr("y",70)            
+   .attr("class","header").text("Attack rate");
+var g =[svg.append("g").attr("transform","translate(150,100)")
+      ,svg.append("g").attr("transform","translate(650,100)")];
+
+<!-- 그래프의 크기 등 설정-->
+var bp=[ viz.bP()
+      .data(data)
+      .min(12)
+      .pad(1)
+      .height(1000)
+      .width(400)
+      .barSize(35)
+      .fill(d=>color[d.primary])      
+   
+];
+      
+<!-- 그래프의 표시에 관련된 설정들-->
+[0,1].forEach(function(i){
+   g[i].call(bp[i])
+   
+   g[i].append("text").attr("x",-70).attr("y",-8).style("text-anchor","middle").text("Attack Category");
+   g[i].append("text").attr("x", 470).attr("y",-8).style("text-anchor","middle").text("Attack subcategory");
+   
+   g[i].append("line").attr("x1",-135).attr("x2",0);
+   g[i].append("line").attr("x1",550).attr("x2",400);
+   
+  
+   g[i].selectAll(".mainBars")
+      .on("mouseover",mouseover)
+      .on("mouseout",mouseout);
+   g[i].selectAll(".mainBars").append("text").attr("class","label")
+      .attr("x",d=>(d.part=="primary"? -30: 30))
+      .attr("y",d=>+6)
+      .text(d=>d.key)
+      .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+   
+   g[i].selectAll(".mainBars").append("text").attr("class","perc")
+      .attr("x",d=>(d.part=="primary"? -130: 140))
+      .attr("y",d=>+6)
+      .text(function(d){ return d3.format("0.0%")(d.percent)})
+      .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+});
+
+<!-- 마우스를 가져다대면 그에 따른 퍼센트(%)를 표현해준다.-->
+function mouseover(d){
+   [0,1].forEach(function(i){
+      bp[i].mouseover(d);
+      
+      g[i].selectAll(".mainBars").select(".perc")
+      .text(function(d){ return d3.format("0.0%")(d.percent)});
+   });
+}
+<!-- 가져다댔던 마우스를 떼면 다시 초기상태로 표현해준다.-->
+function mouseout(d){
+   [0,1].forEach(function(i){
+      bp[i].mouseout(d);
+      
+      g[i].selectAll(".mainBars").select(".perc")
+      .text(function(d){ return d3.format("0.0%")(d.percent)});
+   });
+}
+d3.select(self.frameElement).style("height", "800px");
+</script>
+</body>
+</html>
