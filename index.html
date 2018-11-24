@@ -28,13 +28,13 @@ line{
 </style>
 
 <body>
-<!-- ÆÀ¸í Ç¥½Ã-->
+<!-- íŒ€ëª… í‘œì‹œ-->
 <h2>Team 17</h2>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
 <script> 
-<!-- ±âÁ¸ ÄÚµå¿¡ ÀÖ´ø ÀÚ·áµéÀ» Dataset¿¡ ÀÖ´Â ÀÚ·áµéÀ» ±â¹ÝÀ¸·Î ¹Ù²ãÁÜ>
+<!-- ê¸°ì¡´ ì½”ë“œì— ìžˆë˜ ìžë£Œë“¤ì„ Datasetì— ìžˆëŠ” ìžë£Œë“¤ì„ ê¸°ë°˜ìœ¼ë¡œ ë°”ê¿”ì¤Œ>
 var data=[
 ['   Generic   '   ,'   All   '   ,   7   ],
 ['   Exploits   '   ,'   All   '   ,   7   ],
@@ -141,20 +141,20 @@ var data=[
 ['   DoS   '   ,'   XINETD   '   ,   24   ]
 ];
 
-<!-- ÁÖ¿ä °ø°ÝµéÀÇ Å« ±â¹ÝµéÀÇ »ö±òÀ» ÁöÁ¤ÇØÁÜ-->
+<!-- ì£¼ìš” ê³µê²©ë“¤ì˜ í° ê¸°ë°˜ë“¤ì˜ ìƒ‰ê¹”ì„ ì§€ì •í•´ì¤Œ-->
 var color ={'   Analysis   ':"#3366CC", '   Backdoors   ':"#DC3912",  
 '   DoS   ':"#FF9900", '   Exploits   ':"#109618", '   Fuzzers    ':"#990099", '   Generic   ':"#0099C6", '   Shellcode   ':"#FA7A30",'   Worms   ':"808080"};
 
-<!-- ±×·¡ÇÁ Ç¥Çö ¼³Á¤-->
+<!-- ê·¸ëž˜í”„ í‘œí˜„ ì„¤ì •-->
 var svg = d3.select("body").append("svg").attr("width", 1000).attr("height", 1200);
 
-<!-- ÁÖÁ¦¹®°ú ±×¿¡ µû¸¥ ¼³Á¤-->
+<!-- ì£¼ì œë¬¸ê³¼ ê·¸ì— ë”°ë¥¸ ì„¤ì •-->
 svg.append("text").attr("x",350).attr("y",70)            
    .attr("class","header").text("Attack rate");
 var g =[svg.append("g").attr("transform","translate(150,100)")
       ,svg.append("g").attr("transform","translate(650,100)")];
 
-<!-- ±×·¡ÇÁÀÇ Å©±â µî ¼³Á¤-->
+<!-- ê·¸ëž˜í”„ì˜ í¬ê¸° ë“± ì„¤ì •-->
 var bp=[ viz.bP()
       .data(data)
       .min(12)
@@ -166,7 +166,7 @@ var bp=[ viz.bP()
    
 ];
       
-<!-- ±×·¡ÇÁÀÇ Ç¥½Ã¿¡ °ü·ÃµÈ ¼³Á¤µé-->
+<!-- ê·¸ëž˜í”„ì˜ í‘œì‹œì— ê´€ë ¨ëœ ì„¤ì •ë“¤-->
 [0,1].forEach(function(i){
    g[i].call(bp[i])
    
@@ -193,7 +193,7 @@ var bp=[ viz.bP()
       .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
 });
 
-<!-- ¸¶¿ì½º¸¦ °¡Á®´Ù´ë¸é ±×¿¡ µû¸¥ ÆÛ¼¾Æ®(%)¸¦ Ç¥ÇöÇØÁØ´Ù.-->
+<!-- ë§ˆìš°ìŠ¤ë¥¼ ê°€ì ¸ë‹¤ëŒ€ë©´ ê·¸ì— ë”°ë¥¸ í¼ì„¼íŠ¸(%)ë¥¼ í‘œí˜„í•´ì¤€ë‹¤.-->
 function mouseover(d){
    [0,1].forEach(function(i){
       bp[i].mouseover(d);
@@ -202,7 +202,7 @@ function mouseover(d){
       .text(function(d){ return d3.format("0.0%")(d.percent)});
    });
 }
-<!-- °¡Á®´Ù´ò´ø ¸¶¿ì½º¸¦ ¶¼¸é ´Ù½Ã ÃÊ±â»óÅÂ·Î Ç¥ÇöÇØÁØ´Ù.-->
+<!-- ê°€ì ¸ë‹¤ëŒ”ë˜ ë§ˆìš°ìŠ¤ë¥¼ ë–¼ë©´ ë‹¤ì‹œ ì´ˆê¸°ìƒíƒœë¡œ í‘œí˜„í•´ì¤€ë‹¤.-->
 function mouseout(d){
    [0,1].forEach(function(i){
       bp[i].mouseout(d);
@@ -214,4 +214,4 @@ function mouseout(d){
 d3.select(self.frameElement).style("height", "800px");
 </script>
 </body>
-</html>html>
+</html>
